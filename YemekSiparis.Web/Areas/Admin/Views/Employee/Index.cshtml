@@ -1,0 +1,82 @@
+﻿@using YemekSiparis.Core.Entities
+@model List<Employee>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="m-4">Çalışan Yönetimi</h1>
+
+
+<div class="card m-auto">
+    <div class="card-header">
+        <i class="fa-solid fa-person"></i>
+        Çalışanlar
+        <a class="btn" href="/Admin/Employee/Create" style="color: black"><i class="fa-solid fa-plus"></i></a>
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Çalışan Ismi</th>
+                    <th>Vardiyası</th>
+                    <th>Görevi</th>
+                    <th>Adresi</th>
+                    <th>Maaş (₺)</th>
+                    <th>Işe Başlama Tarihi</th>
+                    <th>Durumu</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Çalışan Ismi</th>
+                    <th>Vardiyası</th>
+                    <th>Görevi</th>
+                    <th>Adresi</th>
+                    <th>Maaş (₺)</th>
+                    <th>Işe Başlama Tarihi</th>
+                    <th>Durumu</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (Employee item in Model)
+                {
+                    <tr>
+                        <th>@item.Name</th>
+                        <th>@item.Shift</th>
+                        <th>@item.Role</th>
+                        <th>@item.Address</th>
+                        <th>@item.Salary</th>
+                        <th>@item.CreatedDate.Date</th>
+                        <th>
+                            @{
+                                if (item.Status == YemekSiparis.Core.Enums.Status.Passive)
+                                {
+                                    <span>Işten Ayrıldı</span>
+                                }
+                                else
+                                {
+                                    <span>Çalışıyor</span>
+                                }
+                            }
+                        </th>
+                        <td>
+                            <a class="btn" href="/Admin/Employee/Update?Id=@item.Id"><i class="fa-solid fa-pen"></i></a>
+                            @{
+                                if (item.Status == YemekSiparis.Core.Enums.Status.Passive)
+                                {
+                                    <a class="btn btn-success"  href="/Admin/Employee/Hire?Id=@item.Id">Işe al</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-warning" href="/Admin/Employee/Fire?Id=@item.Id">Kov</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

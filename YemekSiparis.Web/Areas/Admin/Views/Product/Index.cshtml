@@ -1,0 +1,55 @@
+﻿@using YemekSiparis.BLL.Models.DTOs;
+@model List<FoodListDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="m-4">Ürün Yönetim Ekranı</h1>
+
+<div class="card m-4">
+    <div class="card-header">
+        <i class="fa-solid fa-bowl-food"></i>
+        Yemekler
+        <button><a href="/Admin/Product/Create" style="color: black" ><i class="fa-solid fa-plus"></i></a></button>
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Açıklama</th>
+                    <th>Hazırlama zamanı (dk.)</th>
+                    <th>Kategorisi</th>
+                    <th>Fiyatı (₺)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Açıklama</th>
+                    <th>Hazırlama zamanı</th>
+                    <th>Kategorisi</th>
+                    <th>Fiyatı</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (FoodListDTO item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.PrepTime</td>
+                        <td>@item.CategoryName</td>
+                        <td>@item.Price</td>
+                        <td>
+                            <a class="btn" href="/Admin/Product/Update?Id=@item.Id" ><i class="fa-solid fa-pen"></i></a>
+                            <a  class="btn" href="/Admin/Product/Delete?Id=@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

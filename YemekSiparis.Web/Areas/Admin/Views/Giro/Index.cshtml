@@ -1,0 +1,121 @@
+﻿@using YemekSiparis.BLL.Models.DTOs
+@using YemekSiparis.Core.Entities
+@model GiroListDTO
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="m-4">Grafikler</h1>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Gelir Gider Grafiği
+            </div>
+            <div class="card-body">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Kategori-Yiyecek Grafiği
+            </div>
+            <div class="card-body">
+                <canvas id="barChart" style="width:100%;max-width:600px"></canvas>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@{
+    var orderBagsJson = Json.Serialize(Model.OrderBags);
+    var employeesJson = Json.Serialize(Model.Employees);
+    var CategoryJson = Json.Serialize(Model.Categories);
+}
+
+
+<script>
+    var orderbags = @orderBagsJson;
+    var employees = @employeesJson;
+    var categories = @CategoryJson;
+    const xValues = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    var xCategorName = [];
+    var barColors = ["red", "green", "blue", "orange","pink","black","white"]
+    var yValues = [];
+    var incomes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var expenses = new Array(12);
+    var employeeExpense = 0;
+    
+    Object.keys(orderbags).forEach(key => {
+        var index = parseInt(orderbags[key].orderDate.slice(5, 7)) - 1
+        incomes[index] += parseInt(orderbags[key].totalPrice * 0.4)
+    });
+
+    Object.keys(employees).forEach(key => {
+        employeeExpense += employees[key].salary
+    });
+
+    for (var i = 0; i < 12; i++) {
+        expenses[i] = employeeExpense;
+    }
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: expenses,
+                borderColor: "red",
+                fill: false,
+                label: "Gider"
+            }, {
+                data: incomes,
+                borderColor: "green",
+                fill: false,
+                label: "Gelir"
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
+
+    
+    Object.keys(categories).forEach(key => {
+        xCategorName.push(categories[key].name)
+        var sum = 0;
+        categories[key].foods.forEach(data => {
+            sum++;
+        })
+        yValues.push(sum);
+    });
+
+    new Chart("barChart", {
+        type: "bar",
+        data: {
+            labels: xCategorName,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues,
+                label: "Hamburger"
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
+</script>
+

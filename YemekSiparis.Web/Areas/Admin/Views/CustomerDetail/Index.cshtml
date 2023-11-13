@@ -1,0 +1,61 @@
+﻿@using YemekSiparis.Core.Entities;
+@model List<YemekSiparis.Core.Entities.Customer>
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1 class="m-4">Kullanıcıların Siparişleri</h1>
+
+<div class="row">
+    @foreach (Customer item in Model)
+    {
+        int counter = 1;
+        <div class="col-md-4">
+            <ul class="list-group">
+                <li class="list-group-item" style="display: flex; justify-content: space-between">
+                    @item.Name.ToUpper()
+                    <span>@item.Orders.Count</span>
+                </li>
+                @foreach (OrderBag order in item.Orders)
+                {
+                    <li class="list-group-item">
+
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0" style="display: flex; justify-content: space-between">
+
+                                        @counter. Sipariş
+                                        <span >@order.TotalPrice TL</span>
+
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <ul>
+                                            @foreach (OrderDetail orderDetail in order.OrderDetails)
+                                            {
+                                                <li style="display: flex; justify-content: space-between;">
+                                                    @orderDetail.Food.Name
+                                                    <span>@orderDetail.UnitPrice TL</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+                    counter++;
+                }
+
+            </ul>
+        </div>
+
+
+
+    }
+</div>
+

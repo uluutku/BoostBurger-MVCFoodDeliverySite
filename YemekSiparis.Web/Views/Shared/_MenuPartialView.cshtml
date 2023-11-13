@@ -1,0 +1,96 @@
+﻿@using YemekSiparis.BLL.Models.ViewModels;
+@using YemekSiparis.Core.Entities;
+@model ListFoodVM
+<div class="container mt-5">
+    <div class="row">
+
+
+        @foreach (Food item in Model.Foods)
+        {
+            <div class="col-lg-4 mb-4" stlye="width:300px;height:270px">
+                <div class="card  shadow">
+                    <div class="card-body">
+                        @if (item.Image != null)
+                        {
+                            string imageBase64 = Convert.ToBase64String(item.Image);
+                            string imageSrc = $"data:image/png;base64,{imageBase64}";
+
+                            <img src="@imageSrc" style="width:280px;height:210px;display:block;margin:0 auto" alt="Product Image" />
+                        }
+                        else
+                        {
+                            <p>No Image Available</p>
+                        }
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">Fiyatı: @item.Price</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-action="CreateOrder" asp-controller="Basket" asp-route-id="@item.Id" class="btn btn-danger buy-button">
+                            <b>Sepete Ekle</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.js"></script>
+    <script src="~/js/site.js"></script>
+}
+
+<style>
+    .btn-menu {
+        font-family: 'Montserrat', serif;
+        margin: 5px;
+        border-radius: 10px;
+        font-size: 18px;
+        padding: 10px 15px;
+        background-color: #dc3545;
+        color: white;
+        transition: background-color 0.6s, transform 0.6s ease-in-out;
+    }
+
+        .btn-menu:hover {
+            background-color: white;
+            color: #dc3545;
+            transform: scale(1.1);
+        }
+
+    .card {
+        font-family: 'Montserrat', serif;
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+    .card-footer {
+        background-color: #dc3545;
+        border-top: none;
+        border-radius: 0 0 15px 15px;
+        color: white;
+    }
+
+    .buy-button {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .buy-button:hover {
+            background-color: white;
+            border-color: white;
+            color: #dc3545;
+        }
+
+    .shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    }
+</style>

@@ -1,0 +1,33 @@
+﻿@model YemekSiparis.BLL.Models.DTOs.BeverageCreateDTO
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="card shadow-lg border-0 rounded-lg mt-5 w-50 m-auto">
+    <div class="card-header"><h3 class="text-center font-weight-light my-4">Ürün Ekleme Ekranı</h3></div>
+    <div class="card-body">
+        <form  href="/Admin/Beverage/Create" method="post">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" id="inputFirstName" type="text" asp-for="Name" placeholder="Ürün ismi" />
+                        <label asp-for="Name">İçecek İsmi</label>
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input class="form-control" id="inputLastName" type="text" asp-for="Price" placeholder="Enter your last name" />
+                        <label asp-for="Price">İçecek Fiyatı</label>
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mt-4 mb-0">
+                <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Ekle</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+

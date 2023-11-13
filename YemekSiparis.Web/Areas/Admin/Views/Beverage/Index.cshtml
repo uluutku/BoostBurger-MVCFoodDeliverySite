@@ -1,0 +1,47 @@
+﻿@using YemekSiparis.BLL.Models.DTOs;
+@model List<BeverageListDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="m-4">İçecekler</h1>
+
+<div class="card m-4">
+    <div class="card-header">
+        <i class="fa-solid fa-beer-mug-empty"></i>
+        İçecek
+        <button><a  href="/Admin/Beverage/Create" style="color: black"><i class="fa-solid fa-plus"></i></a></button>
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Malzeme Adı</th>
+                    <th>Fiyatı (₺)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Malzeme Adı</th>
+                    <th>Fiyatı</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (BeverageListDTO item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                        <td>
+                            <a class="btn" href="/Admin/Beverage/Update?Id=@item.Id"><i class="fa-solid fa-pen"></i></a>
+                            <a class="btn" href="/Admin/Beverage/Delete?Id=@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

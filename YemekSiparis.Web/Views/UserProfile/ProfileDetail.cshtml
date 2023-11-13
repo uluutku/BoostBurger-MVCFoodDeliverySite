@@ -1,0 +1,125 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-icons/dist/css/perfect-icons.css" />
+
+@using YemekSiparis.Core.Entities
+@using YemekSiparis.Core.Enums
+@model Customer
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<style>
+    body {
+        background-color: #E9B824;
+        font-family: 'Montserrat', serif;
+    }
+
+    .profile-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-top: 50px;
+    }
+
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .profile-header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-right: auto;
+        }
+
+    .profile-image {
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .info-item {
+        background-color: #f8f8f8;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .update-btn,
+    .orders-btn {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .update-btn {
+        background-color: #007bff;
+    }
+
+        .update-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .orders-btn {
+        background-color: #d9534f;
+    }
+
+        .orders-btn:hover {
+            background-color: #c9302c;
+        }
+</style>
+
+<div class="container profile-container">
+
+    <div class="profile-info">
+        @if (@Model.Age != null)
+        {
+        <div class="info-item"><i class="fas fa-birthday-cake"></i> <strong>Yaşı:</strong> @Model.Age</div>            
+        }
+        @if (@Model.Birthdate != null)
+        {
+        <div class="info-item"><i class="far fa-calendar-alt"></i> <strong>Doğum Tarihi:</strong> @Model.Birthdate.Value.ToShortDateString()</div>
+            
+        }
+        @if (@Model.Gender != null)
+        {        
+            <div class="info-item"><i class="fas fa-venus-mars"></i> <strong>Cinsiyeti:</strong> @Model.Gender.ToString()</div>          
+        }
+        @if (@Model.Address != null)
+        {
+            <div class="info-item"><i class="fas fa-map-marker-alt"></i> <strong>Adresi:</strong> @Model.Address</div>
+
+        }
+    </div>
+    <a class="btn update-btn animate__animated animate__fadeIn" asp-action="ProfileUpdate" asp-route-id="@Model.Id">
+        <i class="fas fa-edit"></i> Güncelle
+    </a>
+</div>
+
+<div class="container text-center mt-4">
+    <a class="btn orders-btn animate__animated animate__fadeIn" asp-area="" asp-controller="UserProfile" asp-action="Orders">
+        <i class="fas fa-history"></i> Geçmiş Siparişlerimi Görüntüle
+    </a>
+</div>

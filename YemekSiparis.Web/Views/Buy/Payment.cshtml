@@ -1,0 +1,181 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+@using YemekSiparis.BLL.Models.ViewModels
+@using YemekSiparis.Core.Entities
+@model OrderDetailVM
+
+<style>
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        transition: transform 0.5s, box-shadow 0.3s;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-text {
+        color: #555;
+    }
+
+    .badge {
+        margin-right: 5px;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+    .total-price,
+    .item-total-price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #28a745;
+        margin-bottom: 5px;
+    }
+
+    .btn-clear-cart,
+    .btn-complete-order,
+    .btn-primary {
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn-clear-cart {
+        background-color: #dc3545;
+    }
+
+        .btn-clear-cart:hover {
+            background-color: #c82333;
+        }
+
+    .btn-complete-order {
+        background-color: #28a745;
+    }
+
+        .btn-complete-order:hover {
+            background-color: #218838;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+@if (!string.IsNullOrEmpty(ViewBag.EmptyCartWarning))
+{
+    <div class="alert alert-warning" role="alert">
+        @ViewBag.EmptyCartWarning
+    </div>
+}
+
+@if (Model != null && Model.OrderDetails != null && Model.OrderDetails.Any())
+{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Sepetinizdeki Ürünler <i class="fas fa-shopping-cart"></i></h2>
+                @foreach (OrderDetail item in Model.OrderDetails)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Food.Name</h5>
+                            <p class="card-text">
+                                <strong>Adet:</strong> @item.Quantity<br />
+                                <strong>Toplam Fiyat:</strong> <span class="item-total-price">@item.UnitPrice ₺</span>
+                            </p>
+                            <div class="extras">
+                                <strong>Soslar:</strong>
+                                @if (item.Extras.Any())
+                                {
+                                    @foreach (var extra in item.Extras)
+                                    {
+                                        <span class="badge bg-danger">@extra.Extra.Name</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Hiç Extra Ürün Eklenmedi</span>
+                                }
+                            </div>
+                            <div class="beverages">
+                                <strong>Alınan İçecekler:</strong>
+                                @if (item.Beverages.Any())
+                                {
+                                    @foreach (var beverage in item.Beverages)
+                                    {
+                                        <span class="badge bg-danger">@beverage.Beverage.Name</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Hiç İçecek Eklenmedi</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <form asp-controller="Buy" asp-action="DeleteItem" method="post">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-delete btn-sm"><b>Siparişi Sil <i class="fas fa-trash-alt"></i></b></button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Toplam Ücret <i class="fas fa-money-check-alt"></i></h5>
+                        <p class="card-text total-price">@Model.OrderDetails[0].OrderBag.TotalPrice ₺</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <form asp-controller="Buy" asp-action="DeleteOrder" method="get">
+                            <input type="hidden" name="orderBagId" value="@Model.OrderDetails.FirstOrDefault()?.OrderBag.Id" />
+                            <button type="submit" class="btn btn-clear-cart btn-lg w-100 mb-2">Sepeti Sil <i class="fas fa-trash-alt"></i></button>
+                        </form>
+                        <form asp-controller="Buy" asp-action="CompleteOrder" method="post">
+                            <button type="submit" class="btn btn-complete-order btn-lg w-100">Siparişi Tamamla <i class="fas fa-check"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="alert alert-warning" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> Lütfen Menü'ye dönüp sepetinize ürün ekleyiniz...
+        </div>
+        <div class="text-center">
+            <a class="btn btn-primary" href="@Url.Action("Menu", "Basket")">Menüye Git <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+}

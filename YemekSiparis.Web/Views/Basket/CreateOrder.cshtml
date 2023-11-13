@@ -1,0 +1,211 @@
+﻿@using YemekSiparis.Core.Enums;
+@using YemekSiparis.BLL.Models.ViewModels;
+@model CreateOrderDetailVM
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - YemekSiparis.Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #E9B824;
+            font-family: 'Montserrat', sans-serif;
+            color: #495057;
+        }
+
+        h1 {
+            color: #dc3545;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .container-form {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        input,
+        select {
+            border: 1px solid #dc3545;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+            input:focus,
+            select:focus {
+                border-color: #dc3545;
+                box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+            }
+
+        .form-check {
+            margin-bottom: 4px;
+        }
+
+        .form-check-label {
+            color: #8b0000;
+            font-weight: normal;
+        }
+
+        .extras-container {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease-in-out;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+            .extras-container:hover {
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+
+        .btn-primary {
+            background-color: #dc3545;
+            border: none;
+            margin-top: 25px;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .btn-primary:hover {
+                background-color: #c9302c;
+            }
+
+        #totalPrice {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc3545;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-4 animate__animated animate__fadeInDown">
+            <i class="fas fa-utensils"></i> Sipariş Detayları
+        </h1>
+        <hr />
+
+        <form asp-action="CreateOrder" id="orderForm">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label for="foodName">
+                    <i class="fas fa-hamburger"></i> Yemek Adı
+                </label>
+                <input type="text" id="foodName" asp-for="Food.Name" class="form-control" readonly />
+                <input type="hidden" id="foodid" asp-for="FoodId" />
+                <span asp-validation-for="Food.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="quantity">
+                    <i class="fas fa-sort-numeric-up-alt"></i> Miktar
+                </label>
+                <input type="number" id="quantity" asp-for="Quantity" onchange="TotalPrice()" class="form-control" min="1" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="food-size">
+                    <i class="fas fa-utensil-spoon"></i> Porsiyon Boyutu
+                </label>
+                <select id="food-size" asp-for="FoodSize" onchange="TotalPrice()" class="form-select">
+                    @foreach (var item in Enum.GetValues(typeof(FoodSize)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <span asp-validation-for="FoodSize" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label>
+                    <i class="fas fa-plus"></i> Extra Seçenekler
+                </label>
+                <div class="extras-container animate__animated animate__fadeIn">
+                    @for (int i = 0; i < Model.Extras.Count; i++)
+                    {
+                        <div class="extra-option">
+                            <div class="form-check">
+                                <input asp-for="@Model.Extras[i].IsSelected" onchange="CheckExtra(@Model.Extras[i].Id, this)" type="checkbox" class="form-check-input" id="extraCheckbox@(i)" />
+                                <label class="form-check-label" for="extraCheckbox@(i)">@Model.Extras[i].Name</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="ExtraId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label>
+                    <i class="fas fa-coffee"></i> İçecek Seçenekleri
+                </label>
+                <div class="extras-container animate__animated animate__fadeIn">
+                    @for (int i = 0; i < Model.Beverages.Count; i++)
+                    {
+                        <div class="extra-option">
+                            <div class="form-check">
+                                <input asp-for="@Model.Beverages[i].IsSelected" onchange="CheckBeverage(@Model.Beverages[i].Id, this)" type="checkbox" class="form-check-input" id="beverageCheckbox@(i)" />
+                                <label class="form-check-label" for="beverageCheckbox@(i)">@Model.Beverages[i].Name</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="BeverageId" class="text-danger"></span>
+            </div>
+
+            <div id="totalPrice" class="text-center animate__animated animate__fadeIn" style="color: #dc3545;"></div>
+
+            <div class="mb-3 text-center">
+                <button asp-area="" asp-controller="Basket" asp-action="CreateOrder" class="btn btn-primary btn-lg">
+                    <i class="fas fa-check"></i> Siparişi Tamamla
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            TotalPrice();
+        });
+
+        function TotalPrice() {
+            console.log("TotalPrice function is triggered.");
+            // Burada sipariş toplam fiyatını güncelleyebilirsiniz.
+        }
+    </script>
+</body>
+</html>

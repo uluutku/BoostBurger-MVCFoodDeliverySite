@@ -1,0 +1,236 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<style>
+    body {
+        overflow-x: hidden;
+        background-image: url('https://r4.wallpaperflare.com/wallpaper/197/854/431/fire-burger-5k-steak-wallpaper-cc3bd8bbdf43f3a09107f9335a61e4ab.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Montserrat', sans-serif;
+        color: #fff;
+        transition: background-color 0.5s, color 0.5s;
+    }
+
+    .jumbotron {
+        position: relative;
+        overflow: hidden;
+        height: 600px;
+        border-radius: 10px;
+        border: solid thin tomato 2px;
+    }
+
+    .video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .jumbotron-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .jumbotron-content {
+        position: relative;
+        z-index: 1;
+        color: white;
+        text-align: center;
+        padding: 150px 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .jumbotron h1 {
+        font-size: 4.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        animation: slideInDown 1s ease-in-out;
+    }
+
+    .jumbotron p {
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+        animation: slideInUp 1s ease-in-out;
+    }
+
+    .jumbotron a.btn {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .category-section {
+        background-color: #d9534f;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+    }
+
+    .category-card {
+        background-color: #f8f8f8; 
+        padding: 10px; 
+        margin: 5px 0;
+        border-radius: 5px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        transition: transform 0.6s;
+        animation: fadeIn 1s ease-in-out;
+        text-align: center; 
+        transform: scale(0.90);
+    }
+
+        .category-card:hover {
+            transform: scale(1.02);
+        }
+
+        .category-card img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .category-card h3 {
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+            color: #333; 
+        }
+
+        .category-card p {
+            font-size: 1.2rem; 
+            margin-bottom: 0;
+            color: #555; 
+        }
+
+
+    .feature-card {
+        background-color: #d9534f;
+        color: white;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+    .delivery-section {
+        background-color: #fff;
+        color: #333;
+        padding: 50px 0;
+        text-align: center;
+    }
+
+    .delivery-card {
+        background-color: #d9534f;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .delivery-card i {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+    h3 {
+        margin-top: 15px;
+    }
+</style>
+
+<div class="jumbotron">
+    <div class="video-container">
+        <video autoplay loop muted playsinline class="jumbotron-video">
+            <source src="https://www.burgerfi.com/wp-content/uploads/2018/09/BFI_Food_Shots_Website_Video_1.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="jumbotron-content">
+        <h1 class="display-4">Lezzet Dolu Deneyim</h1>
+        <p class="lead">Kapınıza gelen birbirinden lezzetli yemekleri keşfedin.</p>
+        <a class="btn btn-danger btn-lg" asp-area="" asp-controller="Basket" asp-action="Menu">Şimdi Sipariş Ver</a>
+    </div>
+</div>
+
+<div class="container category-section">
+    <h2>Öne Çıkan Lezzetlerimiz</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://i.pinimg.com/originals/c6/df/e6/c6dfe6c58c7d9f15af64ec5a7af140b0.jpg" alt="Kategori 1" class="img-fluid" />
+                <h3>Hamburgerler</h3>
+                <p>Şimdiye kadar hamburger yememişim dedirtecek lezzetler.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://img5.goodfon.com/original/2048x2048/2/b1/pitstsa-pomidory-griby.jpg" alt="Kategori 2" class="img-fluid" />
+                <h3>Pizzalar</h3>
+                <p>Ortadoğu ve balkanların en iyi pizzaları ayağınıza geldi.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <img src="https://i.pinimg.com/736x/de/4e/29/de4e297f387b9eb4bda2b56c2023b166.jpg" alt="Kategori 3" class="img-fluid" />
+                <h3>Makarnalar</h3>
+                <p>Yedi cihana nam salmış lezzette makarnalar.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://kampanyabul.org/wp-content/uploads/2019/04/indirim-kuponu.jpg" alt="Özellik 2" class="img-fluid" />
+                <h3>İndirimler ve Kampanyalar</h3>
+                <p>Sık sık güncellenen indirim ve kampanyalarımızı takip edin.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://cdn.winsightmedia.com/platform/files/public/2019-09/background/food-delivery-shutterstock_1569014077.jpg?VersionId=wG8OA5UFUf3mlf8mVvp9T7Px5AH6QWUF" alt="Özellik 3" class="img-fluid" />
+                <h3>Hızlı ve Güvenilir Teslimat</h3>
+                <p>Express teslimat ile siparişiniz en kısa sürede kapınıza ulaşır.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ek Bölümleri Ekleyin -->
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://alev.biz/wp-content/uploads/2017/02/eating-pizza.jpg" alt="Özellik 4" class="img-fluid" />
+                <h3>Yeni Lezzetler Keşfedin</h3>
+                <p>Menümüzdeki son eklemeler arasında keşfetmeye değer yeni lezzetler sizi bekliyor.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-card">
+                <img src="https://w.forfun.com/fetch/b7/b787d427184dfa039de27fbc50b71e67.jpeg" alt="Özellik 5" class="img-fluid" />
+                <h3>Doğal ve Taze Malzemeler</h3>
+                <p>Yemeklerimizde sadece en kaliteli ve taze malzemeleri kullanıyoruz.</p>
+            </div>
+        </div>
+    </div>
+</div>

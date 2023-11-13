@@ -1,0 +1,78 @@
+﻿@using YemekSiparis.Core.Entities;
+@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="m-4">Kategori Düzenleme</h1>
+
+
+<div class="card m-auto mt-4 w-50">
+    <div class="card-header">
+        <i class="fa-solid fa-list-ul"></i>
+        Kategoriler
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td>
+                        <input class="form-control categoryNameCreate" id="create-name" type="text" value="" placeholder="Kaydedilecek kategori ismi..." />
+                    </td>
+                    <td>
+                        <a class="btn btn-success create-button">Kaydet</a>
+                    </td>
+                </tr>
+
+                @foreach (Category item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input class="form-control categoryName" type="text" id="Input-@item.Id" value="@item.Name" placeholder="Kategori ismi..." />
+                        </td>
+                        <td>
+                            <a class="btn update-button" data-id="@item.Id"><i class="fa-solid fa-pen"></i></a>
+                            <a class="btn" href="/Admin/Category/Delete?Id=@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.update-button').click(function () {
+            var Id = $(this).data('id');
+            var Name = $('#Input-' + Id).val();
+            if (Name != "") {
+                var updateUrl = '/Admin/Category/Update' + '?Id=' + Id + '&Name=' + Name;
+                window.location.href = updateUrl;
+            }
+        });
+        $('.create-button').click(function () {
+            var Name = $('#create-name').val();
+            if (Name != "") {
+                var createeUrl = '/Admin/Category/Create' + '?name=' + Name;
+                window.location.href = createeUrl;
+            }
+        });
+    });
+</script>
+
+
+

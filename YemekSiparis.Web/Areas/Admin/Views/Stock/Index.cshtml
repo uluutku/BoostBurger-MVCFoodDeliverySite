@@ -1,0 +1,173 @@
+﻿@using YemekSiparis.BLL.Models.DTOs;
+@using YemekSiparis.Core.Entities;
+@model StockListDTO
+
+@{
+    ViewData["Title"] = "Index";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<h1 class="m-4">Stok Düzenleme</h1>
+
+<div class="mb-4">
+    <div class="form-group pull-right">
+        <input type="text" class="search form-control" placeholder="What you looking for?">
+    </div>
+    <span class="counter pull-right"></span>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-hover table-bordered results">
+            <thead>
+                <tr>
+                    <th class="col-md-8 col-xs-8">Yiyecek Ismi</th>
+                    <th class="col-md-3 col-xs-3">Stok Miktarı</th>
+                    <th class="col-md-1 col-xs-1"></th>
+                </tr>
+                <tr class="warning no-result">
+                    <td colspan="4"><i class="fa fa-warning"></i>Sonuç Bulunamadı</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (StockProductsDTO item in Model.Foods)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <input class="form-control" style="width:100%" type="number" id="stockFoodInput-@item.Id" value="@item.Stock" placeholder="Ürün ismi" />
+                        </td>
+                        <td>
+                            <a class="btn btn-success update-btn-food" data-idfood="@item.Id">Ekle</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <table class="table table-hover table-bordered results">
+            <thead>
+                <tr>
+                    <th class="col-md-8 col-xs-8">Extra Malzeme Ismi</th>
+                    <th class="col-md-3 col-xs-3">Stok Miktarı</th>
+                    <th class="col-md-1 col-xs-1"></th>
+                </tr>
+                <tr class="warning no-result">
+                    <td colspan="4"><i class="fa fa-warning"></i>Sonuç Bulunamadı</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (StockProductsDTO item in Model.Extras)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <input class="form-control" style="width:100%" type="number" id="stockExtraInput-@item.Id" value="@item.Stock" placeholder="Ürün ismi" />
+                        </td>
+                        <td>
+                            <a class="btn btn-success update-btn-extra" data-idextra="@item.Id">Ekle</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <table class="table table-hover table-bordered results">
+            <thead>
+                <tr>
+                    <th class="col-md-8 col-xs-8">Içecek Ismi</th>
+                    <th class="col-md-3 col-xs-3">Stok Miktarı</th>
+                    <th class="col-md-1 col-xs-1"></th>
+                </tr>
+                <tr class="warning no-result">
+                    <td colspan="4"><i class="fa fa-warning"></i>Sonuç Bulunamadı</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (StockProductsDTO item in Model.Beverages)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <input class="form-control" style="width:100%" type="number" id="stockBeverageInput-@item.Id" value="@item.Stock" placeholder="Ürün ismi" />
+                        </td>
+                        <td>
+                            <a class="btn btn-success update-btn-beverage" data-idbeverage="@item.Id">Ekle</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+href="/Admin/Extra/Create"
+
+<script>
+    $(document).ready(function () {
+        $(".search").keyup(function () {
+            var searchTerm = $(".search").val();
+            var listItem = $('.results tbody').children('tr');
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+            $.extend($.expr[':'], {
+                'containsi': function (elem, i, match, array) {
+                    return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+                }
+            });
+
+            $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'false');
+            });
+
+            $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+                $(this).attr('visible', 'true');
+            });
+
+            var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+            if (jobCount == '0') { $('.no-result').show(); }
+            else { $('.no-result').hide(); }
+        });
+        $('.update-btn-food').click(function () {
+            var itemId = $(this).data('idfood');
+            var stockValue = $('#stockFoodInput-' + itemId).val();
+            var updateUrl = '/Admin/Stock/UpdateFood' + '?Id=' + itemId + '&Stock=' + stockValue;
+            window.location.href = updateUrl;
+        });
+        $('.update-btn-extra').click(function () {
+            var itemId = $(this).data('idextra');
+            var stockValue = $('#stockExtraInput-' + itemId).val();
+            var updateUrl = '/Admin/Stock/UpdateExtra' + '?Id=' + itemId + '&Stock=' + stockValue;
+            window.location.href = updateUrl;
+                });
+        $('.update-btn-beverage').click(function () {
+            var itemId = $(this).data('idbeverage');
+            var stockValue = $('#stockBeverageInput-' + itemId).val();
+            var updateUrl = '/Admin/Stock/UpdateBeverage' + '?Id=' + itemId + '&Stock=' + stockValue;
+            window.location.href = updateUrl;
+        });
+    });
+</script>
+
+<style>
+    body {
+        padding: 20px 20px;
+    }
+
+    .results tr[visible='false'],
+    .no-result {
+        display: none;
+    }
+
+    .results tr[visible='true'] {
+        display: table-row;
+    }
+
+    .counter {
+        padding: 8px;
+        color: #ccc;
+    }
+</style>

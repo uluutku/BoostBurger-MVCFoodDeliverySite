@@ -1,0 +1,48 @@
+﻿@model YemekSiparis.BLL.Models.DTOs.EmployeeUpdateDTO
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Çalışan Güncelleme Ekranı</h1>
+
+<div class="card shadow-lg border-0 rounded-lg mt-5 w-75 m-auto">
+    <div class="card-header"><h3 class="text-center font-weight-light my-4">Ürün Ekleme Ekranı</h3></div>
+    <div class="card-body">
+        <form href="/Admin/Employee/Update" method="post">
+            <input type="hidden" asp-for="CreatedDate"/>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="form-floating mb-3 mb-md-0">
+                        <input class="form-control" id="inputFirstName" type="text" asp-for="Name" placeholder="Ürün ismi" />
+                        <label asp-for="Name">Çalışan İsmi</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input class="form-control" id="inputLastName" type="text" asp-for="Shift" placeholder="Enter your last name" />
+                        <label asp-for="Shift">Vardiyası</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input class="form-control" id="inputLastName" type="text" asp-for="Role" placeholder="Enter your last name" />
+                        <label asp-for="Role">Görevi</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input class="form-control" id="inputLastName" type="text" asp-for="Salary" placeholder="Enter your last name" />
+                        <label asp-for="Salary">Maaş</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" id="inputEmail" type="text" asp-for="Address" placeholder="name@example.com" />
+                <label asp-for="Address">Adres</label>
+            </div>
+            <div class="mt-4 mb-0">
+                <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Çalışanı güncelle</button></div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery - Sipariş Tamamlandı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .order-completed-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 100px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .success-message {
+            font-size: 2em;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            font-size: 1.2em;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .back-to-menu-btn {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .back-to-menu-btn:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container order-completed-container">
+        <div class="card">
+            <div class="success-message">
+                <h2><i class="fas fa-check-circle"></i> Siparişiniz Başarıyla Tamamlandı!</h2>
+            </div>
+            <div class="order-details">
+                <p><strong>Teşekkür ederiz!</strong></p>
+                <p>Siparişiniz başarıyla işlendi ve şu anda hazırlık aşamasında. </p>
+                <p>Siparişiniz en kısa sürede kapınıza ulaştırılacak.</p>
+            </div>
+            <a class="btn back-to-menu-btn" href="/Basket/Menu"><i class="fas fa-arrow-left"></i> Menüye Geri Dönmek İçin Tıklayınız</a>
+        </div>
+    </div>
+</body>
+
+</html>

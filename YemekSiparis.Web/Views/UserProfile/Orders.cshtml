@@ -1,0 +1,46 @@
+﻿@using YemekSiparis.BLL.Models.ViewModels;
+@using YemekSiparis.Core.Entities;
+@model OrderDetailVM
+
+<h1 class="text-center mb-4">GEÇMİŞ SİPARİŞLER</h1>
+<hr />
+
+@if (Model != null && Model.OrderDetails != null && Model.OrderDetails.Any())
+{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                @foreach (OrderDetail item in Model.OrderDetails)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Food.Name</h5>
+                            <p class="card-text"><strong>Adet:</strong> @item.Quantity</p>
+                            <p class="card-text"><strong>Toplam Fiyat:</strong> @item.UnitPrice</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <form asp-controller="UserProfile" asp-action="OrderHardDelete" method="post">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm"><b>Geçmişimden Kaldır</b></button>
+                            </form>
+                        </div>
+                    </div>
+                }
+                <div class="text-center mt-4">
+                    <a class="btn btn-success" asp-action="ProfileDetail" style="width: 200px;">Profile Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="alert alert-warning" role="alert">
+            Geçmiş sipariş bulunamadı.
+        </div>
+        <div class="text-center mt-4">
+            <a class="btn btn-success" asp-action="ProfileDetail" style="width: 200px;">Profile Dön</a>
+        </div>
+    </div>
+}

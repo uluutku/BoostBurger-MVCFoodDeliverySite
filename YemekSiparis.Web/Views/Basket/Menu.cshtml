@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body style="background: #E9B824;">
+    @{
+        var successMessage = TempData["Success"] as string;
+    }
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div id="alertDiv" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2" style="color: #28a745;"></i> @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @section scripts {
+        <script src="~/js/menu.js"></script>
+    }
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 animate__animated animate__fadeInDown"><b><i class="fas fa-hamburger text-danger"></i> Yemek Menüsü</b></h1>
+
+        <h3 class="text-center mb-3 animate__animated animate__fadeIn"><i class="fas fa-list text-danger"></i> Kategoriler</h3>
+
+        <div class="d-flex justify-content-center mb-4 animate__animated animate__fadeInUp">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-success btn-menu" onclick="AllList(0)"><i class="fas fa-utensils" style="color: #fff;"></i> Hepsi</button>
+                @foreach (var item in Model)
+                {
+                    <button type="button" class="btn btn-outline-success btn-menu" onclick="AllList(@item.Id)">
+                        @switch (item.Name.ToLower())
+                        {
+                            case "hamburger":
+                                <i class="fas fa-hamburger" style="color: #fff;"></i>
+                                break;
+                            case "pizza":
+                                <i class="fas fa-pizza-slice" style="color: #fff;"></i>
+                                break;
+                            case "pasta":
+                                <i class="fas fa-utensil-spoon" style="color: #fff;"></i>
+                                break;
+                            default:
+                                <i class="fas fa-utensils" style="color: #fff;"></i>
+                                break;
+                        }
+                        @item.Name
+                    </button>
+                }
+            </div>
+        </div>
+
+        <p class="text-center lead animate__animated animate__fadeIn">Bu kısımdan filtrelemek istediğiniz yemek kategorisini seçebilirsiniz.</p>
+
+        <hr class="animate__animated animate__fadeIn" />
+
+        <div class="row justify-content-center">
+            <div id="all-list"></div>
+            <div id="HamburgerList"></div>
+            <div id="PizzaList"></div>
+            <div id="PastaList"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            AllList();
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <style>
+        .fa {
+            margin-right: 5px;
+        }
+
+        .card {
+            font-family: 'Montserrat', serif;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+            .card:hover {
+                transform: scale(1.02);
+            }
+
+        .btn-menu {
+            font-family: 'Montserrat', serif;
+            border-radius: 25px;
+        }
+    </style>
+</body>
+</html>
